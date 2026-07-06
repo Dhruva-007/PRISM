@@ -87,3 +87,6 @@ public/maplibre/
 # ── Package manager locks ────────────────────────────────────
 pnpm-lock.yaml
 bun.lockb
+
+# Cloud Build config — manage secrets via GCP Console substitutions
+cloudbuild.yaml
