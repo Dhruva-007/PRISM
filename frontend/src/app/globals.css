@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * PRISM Design System — Global CSS Variables
+ *
+ * Color philosophy:
+ * - Muted charcoal for text (readable, professional)
+ * - Soft stone/beige for backgrounds (warm, not sterile)
+ * - Subtle emerald for accents (growth, health, positive action)
+ * - Semantic colors for severity levels
+ *
+ * This is NOT a dark cyberpunk UI.
+ * It should feel like software governments would purchase.
+ */
+
+@layer base {
+  :root {
+    /* Background colors — warm stone tones */
+    --background: 30 10% 98%;
+    --foreground: 20 14% 15%;
+
+    /* Card surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 15%;
+
+    /* Popover surfaces */
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 15%;
+
+    /* Primary — deep charcoal */
+    --primary: 20 14% 15%;
+    --primary-foreground: 30 10% 98%;
+
+    /* Secondary — warm stone */
+    --secondary: 30 10% 94%;
+    --secondary-foreground: 20 14% 25%;
+
+    /* Muted — subtle backgrounds */
+    --muted: 30 8% 95%;
+    --muted-foreground: 20 10% 50%;
+
+    /* Accent — emerald (PRISM signature) */
+    --accent: 158 60% 44%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive — for critical alerts */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border and input */
+    --border: 30 10% 88%;
+    --input: 30 10% 88%;
+    --ring: 158 60% 44%;
+
+    /* Border radius */
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 30 10% 97%;
+    --sidebar-foreground: 20 14% 20%;
+    --sidebar-border: 30 10% 90%;
+    --sidebar-accent: 158 60% 44%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus ring that matches PRISM brand */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2;
+  }
+}
+
+@layer utilities {
+  /**
+   * PRISM Severity Colors
+   * Used consistently across badges, indicators, and charts.
+   */
+  .severity-low {
+    @apply bg-emerald-50 text-emerald-700 border-emerald-200;
+  }
+
+  .severity-medium {
+    @apply bg-amber-50 text-amber-700 border-amber-200;
+  }
+
+  .severity-high {
+    @apply bg-orange-50 text-orange-700 border-orange-200;
+  }
+
+  .severity-critical {
+    @apply bg-red-50 text-red-700 border-red-200;
+  }
+
+  /**
+   * PRISM Score Colors
+   * Used for intervention scoring visualization.
+   */
+  .score-excellent {
+    @apply text-emerald-600;
+  }
+
+  .score-good {
+    @apply text-blue-600;
+  }
+
+  .score-fair {
+    @apply text-amber-600;
+  }
+
+  .score-poor {
+    @apply text-red-600;
+  }
+
+  /**
+   * Smooth transitions for all interactive elements.
+   */
+  .prism-transition {
+    @apply transition-all duration-200 ease-in-out;
+  }
+}
