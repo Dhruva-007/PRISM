@@ -1,0 +1,100 @@
+# ============================================================
+# PRISM Backend .gitignore
+# ============================================================
+
+# ── Virtual environment ──────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+.env/
+pip-selfcheck.json
+
+# ── Python cache ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# ── Distribution and packaging ───────────────────────────────
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+*.whl
+MANIFEST
+pip-wheel-metadata/
+share/python-wheels/
+lib/
+lib64/
+
+# ── Environment and secrets ──────────────────────────────────
+.env
+.env.local
+.env.production
+.env.staging
+!.env.example
+
+# Firebase service account key
+firebase-service-account.json
+*service-account*.json
+*serviceAccount*.json
+*credentials*.json
+
+# ── Testing ──────────────────────────────────────────────────
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+nosetests.xml
+test-results/
+junit.xml
+
+# ── Type checking ────────────────────────────────────────────
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.pyre/
+
+# ── Linting ──────────────────────────────────────────────────
+.ruff_cache/
+
+# ── Jupyter notebooks ────────────────────────────────────────
+.ipynb_checkpoints
+*.ipynb
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Docker ───────────────────────────────────────────────────
+docker-compose.override.yml
+
+# ── Local development artifacts ──────────────────────────────
+*.tmp
+*.temp
+.cache/
+
+# ── Google Cloud SDK ─────────────────────────────────────────
+application_default_credentials.json
+.gcloud/

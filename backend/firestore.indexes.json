@@ -1,0 +1,57 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "community_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "source", "order": "ASCENDING" },
+        { "fieldPath": "ingested_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "community_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "event_type", "order": "ASCENDING" },
+        { "fieldPath": "ingested_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "community_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ingested_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "situation_analyses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "intervention_strategies",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "analysis_id", "order": "ASCENDING" },
+        { "fieldPath": "rank", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "intervention_strategies",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "simulation_results",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "analysis_id", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
