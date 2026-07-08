@@ -44,14 +44,16 @@ function deriveMetricSummary(events: CommunityEvent[]) {
     (e) => e.severity === "critical" || e.severity === "high"
   );
 
+  const aqiValues = aqEvents
+    .map((e) => {
+      const m = e.metrics as AirQualityMetrics;
+      return typeof m.aqi === "number" ? m.aqi : null;
+    })
+    .filter((v): v is number => v !== null);
+
   const avgAqi =
-    aqEvents.length > 0
-      ? Math.round(
-          aqEvents.reduce((sum, e) => {
-            const m = e.metrics as AirQualityMetrics;
-            return sum + (m.aqi ?? 0);
-          }, 0) / aqEvents.length
-        )
+    aqiValues.length > 0
+      ? Math.round(aqiValues.reduce((sum, v) => sum + v, 0) / aqiValues.length)
       : null;
 
   const latestWeather =
@@ -61,7 +63,7 @@ function deriveMetricSummary(events: CommunityEvent[]) {
 
   const totalRespiratoryCases = healthEvents.reduce((sum, e) => {
     const m = e.metrics as HealthMetrics;
-    return sum + (m.respiratory_cases ?? 0);
+    return sum + (typeof m.respiratory_cases === "number" ? m.respiratory_cases : 0);
   }, 0);
 
   return {
@@ -69,6 +71,7 @@ function deriveMetricSummary(events: CommunityEvent[]) {
     latestWeather,
     totalRespiratoryCases,
     activeAlerts: alertEvents.length,
+    aqStationCount: aqEvents.length,
   };
 }
 
@@ -114,16 +117,20 @@ export default function OverviewPage() {
     : "Select a city";
 
   const handleRefreshData = () => {
-    if (selectedCity) {
-      triggerIngestion({
-        city_id: selectedCity.city_id,
-        city: `${selectedCity.display_name}, ${selectedCity.state}`,
-        latitude: selectedCity.latitude,
-        longitude: selectedCity.longitude,
-      });
-    } else {
-      triggerIngestion(undefined);
-    }
+    const cityToUse = selectedCity ?? {
+      city_id: "hyderabad",
+      display_name: "Hyderabad",
+      state: "Telangana",
+      latitude: 17.3850,
+      longitude: 78.4867,
+    };
+
+    triggerIngestion({
+      city_id: cityToUse.city_id,
+      city: `${cityToUse.display_name}, ${cityToUse.state}`,
+      latitude: cityToUse.latitude,
+      longitude: cityToUse.longitude,
+    });
   };
 
   return (
@@ -219,7 +226,7 @@ export default function OverviewPage() {
                       <span className="text-xs text-muted-foreground">AQI avg</span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {events.filter((e) => e.event_type === "air_quality").length} stations
+                      {summary.aqStationCount} stations
                     </p>
                     <div className="mt-2">
                       <StatusBadge type="severity" value={aqiSeverity} />
