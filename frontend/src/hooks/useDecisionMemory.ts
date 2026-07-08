@@ -1,10 +1,3 @@
-/**
- * useDecisionMemory hook for PRISM.
- *
- * Provides access to decision memory records and the ability
- * to record new decisions and update outcomes.
- */
-
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -36,14 +29,8 @@ export function useDecisionMemory() {
     Error,
     RecordDecisionRequest
   >({
-    mutationFn: (request) => {
-      const headers: Record<string, string> = {};
-      if (user) {
-        headers["X-User-UID"] = user.uid;
-        headers["X-User-Name"] = user.displayName;
-      }
-      return apiClient.post<DecisionMemoryResponse>("/memory/record", request);
-    },
+    mutationFn: (request) =>
+      apiClient.post<DecisionMemoryResponse>("/memory/record", request),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: MEMORY_QUERY_KEY });
     },

@@ -1,10 +1,3 @@
-/**
- * useCity hook for PRISM.
- *
- * Manages the currently selected city across the entire application.
- * Stores selection in localStorage for persistence between sessions.
- */
-
 "use client";
 
 import {
@@ -93,7 +86,7 @@ export function CityProvider({ children }: CityProviderProps): JSX.Element {
         setSelectedCityId(stored);
       }
     } catch {
-      // localStorage unavailable in SSR or private browsing
+      // localStorage unavailable
     }
   }, []);
 
@@ -104,11 +97,12 @@ export function CityProvider({ children }: CityProviderProps): JSX.Element {
     retry: 1,
   });
 
-  const cities =
+  const resolvedCities =
     data?.cities && data.cities.length > 0 ? data.cities : FALLBACK_CITIES;
 
   const selectedCity =
-    cities.find((c) => c.city_id === selectedCityId) ?? cities[0];
+    resolvedCities.find((c) => c.city_id === selectedCityId) ??
+    FALLBACK_CITIES[0];
 
   const selectCity = useCallback((cityId: string) => {
     setSelectedCityId(cityId);
@@ -120,7 +114,9 @@ export function CityProvider({ children }: CityProviderProps): JSX.Element {
   }, []);
 
   return (
-    <CityContext.Provider value={{ cities, selectedCity, selectCity, isLoading }}>
+    <CityContext.Provider
+      value={{ cities: resolvedCities, selectedCity, selectCity, isLoading }}
+    >
       {children}
     </CityContext.Provider>
   );

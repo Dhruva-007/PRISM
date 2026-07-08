@@ -1,10 +1,3 @@
-/**
- * useAnalysis hook for PRISM.
- *
- * Provides access to situation analyses and the ability
- * to trigger new Gemini-powered analyses.
- */
-
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

@@ -1,10 +1,3 @@
-/**
- * useEvents hook for PRISM.
- *
- * Provides access to community events from the backend API.
- * Uses React Query for caching, background refresh, and loading states.
- */
-
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -25,7 +18,7 @@ interface UseEventsOptions {
 }
 
 export function useEvents(options: UseEventsOptions = {}) {
-  const { source, eventType, limit = 50, enabled = true } = options;
+  const { source, eventType, limit = 200, enabled = true } = options;
   const queryClient = useQueryClient();
 
   const params = new URLSearchParams();
@@ -35,34 +28,32 @@ export function useEvents(options: UseEventsOptions = {}) {
 
   const queryKey = [...EVENTS_QUERY_KEY, source, eventType, limit];
 
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useQuery<CommunityEventListResponse>({
-    queryKey,
-    queryFn: () =>
-      apiClient.get<CommunityEventListResponse>(
-        `/ingest/events?${params.toString()}`
-      ),
-    enabled,
-    staleTime: 60 * 1000,
-    refetchInterval: 5 * 60 * 1000,
-  });
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<CommunityEventListResponse>({
+      queryKey,
+      queryFn: () =>
+        apiClient.get<CommunityEventListResponse>(
+          `/ingest/events?${params.toString()}`
+        ),
+      enabled,
+      staleTime: 30 * 1000,
+      refetchInterval: false,
+    });
 
   const triggerIngestionMutation = useMutation<
     IngestTriggerResponse,
     Error,
     IngestTriggerRequest | undefined
   >({
-    mutationFn: (request) => {
-      const body = request ?? {};
-      return apiClient.post<IngestTriggerResponse>("/ingest/trigger", body);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: EVENTS_QUERY_KEY });
+    mutationFn: (request) =>
+      apiClient.post<IngestTriggerResponse>(
+        "/ingest/trigger",
+        request ?? {}
+      ),
+    onSuccess: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await queryClient.invalidateQueries({ queryKey: EVENTS_QUERY_KEY });
+      await refetch();
     },
   });
 

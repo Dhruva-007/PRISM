@@ -1,10 +1,3 @@
-/**
- * useSimulation hook for PRISM.
- *
- * Provides access to simulation results and the ability
- * to run new scenario simulations.
- */
-
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -36,7 +29,10 @@ export function useSimulation(analysisId?: string) {
     RunSimulationRequest
   >({
     mutationFn: (request) =>
-      apiClient.post<SimulationListResponse>("/simulation/run", request),
+      apiClient.post<SimulationListResponse>(
+        "/simulation/run",
+        request
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SIMULATION_QUERY_KEY });
     },
